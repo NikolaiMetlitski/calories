@@ -1,0 +1,58 @@
+{
+  "name": "project-mikalai-miatlitski",
+  "version": "1.0.0",
+  "description": "Client for calories web app",
+  "private": true,
+  "author": "Mikalai Miatlitski",
+  "license": "",
+
+  "dependencies": {
+    "react": "0.14.7",
+    "react-dom": "0.14.7",
+    "flux": "2.1.1",
+    "keymirror": "0.1.1",
+    "object-assign": "4.0.1",
+    "jquery": "2.2.3",
+    "bootstrap": "3.3.6"
+  },
+
+  "devDependencies": {
+    "browserify": "13.0.0",
+    "babel-cli": "6.6.4",
+    "babel-plugin-transform-react-jsx": "6.6.5",
+    "babel-plugin-transform-object-rest-spread": "6.6.5",
+    "rimraf": "2.5.2",
+    "mkdirp": "0.5.1",
+    "jasmine": "2.4.1",
+    "ncp": "2.0.0"
+  },
+
+  "scripts": {
+    "clean": "rimraf target/js && run npm clean:css",
+
+    "clean:js": "rimraf target/js/main",
+    "precompile:js": "npm run clean:js && mkdirp target/js/main && mkdirp target/webroot/js",
+    "babel:js": "babel js/main -d target/js/main",
+    "compile:js": "npm run babel:js && npm run browserify:bundle",
+    "browserify:bundle": "browserify target/js/main/_bundle.js -o target/webroot/js/_bundle.js --debug",
+
+    "clean:test": "rimraf target/js/test",
+    "precompile:test": "npm run clean:test && ncp target/js/main target/js/test",
+    "babel:test": "babel js/test -d target/js/test",
+    "compile:test": "npm run babel:test",
+    "pretest": "npm run compile:test",
+    "test": "jasmine JASMINE_CONFIG_PATH=./jasmine.json",
+
+    "clean:css": "rimraf css/bootstrap && rimraf css/fonts",
+    "precompile:css": "npm run clean:css && ncp node_modules/bootstrap/dist/css css/bootstrap && ncp node_modules/bootstrap/dist/fonts css/fonts",
+    "compile:css": "ncp css target/webroot/css",
+
+    "compile" : "npm run compile:js && npm run compile:test",
+    "deploy:js" : "ncp target/webroot/js C:/Sys/wildfly-10.0.0.Final/standalone/deployments/calories-web-app.war/js",
+    "deploy:css": "ncp target/webroot/css C:/Sys/wildfly-10.0.0.Final/standalone/deployments/calories-web-app.war/css",
+    "redeploy:js": "npm run compile:js && npm run deploy:js",
+    "redeploy:css" : "npm run compile:css && npm run deploy:css",
+    "redeploy:all" : "npm run redeploy:js && npm run redeploy:css",
+    "build:all": "npm run compile:js && npm run compile:css"
+  }
+}

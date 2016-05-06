@@ -1,0 +1,43 @@
+.form-group.app-buttons {
+  margin: 10px 0 0 0;
+  display: block;
+}
+.form-group.app-buttons button {
+  margin: 3px 3px 3px 3px;
+}
+.form-inline label {
+  margin: 0 4px 5px 7px;
+}
+.form-control.app-multiselect {
+  width: initial;
+}
+.app-signin {
+  max-width: 400px;
+  margin-top: 40px;
+}
+.app-no-display {
+  display: none !important;
+}
+#app {
+  padding-bottom: 20px;
+}
+.app-right {
+  text-align: right;
+}
+
+.app-grid-foot {
+  overflow: hidden;
+}
+.app-grid-foot .btn {
+  float: right;
+}
+.app-grid-foot .pagination {
+  float: left;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .app-nowrap {
+    white-space: nowrap;
+  }
+}

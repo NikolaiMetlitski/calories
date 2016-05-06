@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:sec="http://www.springframework.org/schema/security"
+  xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+  <sec:http pattern="/js/**" security="none"/>
+  <sec:http pattern="/css/**" security="none"/>
+
+  <sec:http entry-point-ref="entryPoint">
+    <!-- Authorization setup ================================================================================ -->
+    <sec:intercept-url pattern="/signup" access="hasRole('ANONYMOUS')"/>
+    <sec:intercept-url pattern="/user" access="hasAnyRole('CRUD_USER')" method="PUT"/>
+    <sec:intercept-url pattern="/user" access="hasAnyRole('CRUD_USER', 'USE_APP')"/>
+    <sec:intercept-url pattern="/record" access="hasAnyRole('CRUD_RECORD', 'USE_APP')"/>
+    <!-- ==================================================================================================== -->
+    <sec:form-login login-page="/" authentication-success-handler-ref="authSuccessHandler" authentication-failure-handler-ref="authFailureHandler"/>
+    <sec:logout success-handler-ref="logoutSuccessHandler"/>
+    <sec:access-denied-handler ref="accessDeniedHandler"/>
+    <sec:csrf disabled="true"/>
+  </sec:http>
+
+  <sec:authentication-manager>
+    <sec:authentication-provider ref="authProvider"/>
+  </sec:authentication-manager>
+
+  <bean id="authProvider" class="com.app.security.AuthProvider"/>
+  <bean id="accessDeniedHandler" class="com.app.security.AccessDeniedHandlerImpl"/>
+  <bean id="entryPoint" class="org.springframework.security.web.authentication.HttpStatusEntryPoint">
+    <constructor-arg name="httpStatus" value="#{T(org.springframework.http.HttpStatus).UNAUTHORIZED}"/>
+  </bean>
+  <bean id="authSuccessHandler" class="com.app.security.AuthSuccessHandlerImpl"/>
+  <bean id="authFailureHandler" class="com.app.security.AuthFailureHandlerImpl"/>
+  <bean id="logoutSuccessHandler" class="com.app.security.LogoutSuccessHandlerImpl"/>
+
+</beans>

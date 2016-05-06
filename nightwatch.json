@@ -1,0 +1,11 @@
+{
+  "src_folders" : ["./js/e2e"],
+  "test_settings" : {
+    "chrome" : {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true
+      }
+    }
+  }
+}

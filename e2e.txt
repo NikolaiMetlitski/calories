@@ -1,0 +1,4 @@
+npm install -g nightwatch webdriver-manager
+webdriver-manager update
+webdriver-manager start
+nightwatch --config nightwatch.json --env chrome
